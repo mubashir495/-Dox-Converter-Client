@@ -24,7 +24,7 @@ export default function OcrDashboard() {
   const [text, setText] = useState("");
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
 
-  const API_URL = "http://localhost:4000/ocr/upload";
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/ocr/upload";
 
   const uploadFile = async (
     mode: "read" | "convert-word" | "convert-excel" | "convert-txt"
