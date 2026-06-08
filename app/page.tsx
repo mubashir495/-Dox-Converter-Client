@@ -24,7 +24,8 @@ export default function OcrDashboard() {
   const [text, setText] = useState("");
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
 
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/ocr/upload";
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://documents-tan.vercel.app/ocr/upload";
+  const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "https://documents-tan.vercel.app";
 
   const uploadFile = async (
     mode: "read" | "convert-word" | "convert-excel" | "convert-txt"
@@ -78,16 +79,19 @@ export default function OcrDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-10 flex justify-center">
-      <div className="w-full max-w-4xl space-y-6">
+    <div className="min-h-screen bg-gradient-to-b from-sky-50 to-white p-6 md:p-12 flex items-start justify-center">
+      <div className="w-full max-w-4xl space-y-8">
+
+        <header className="text-center">
+          <h1 className="text-2xl md:text-3xl font-bold text-sky-800">OCR Document Converter</h1>
+          <p className="text-sm text-sky-600 mt-1">Upload a document and read or convert it to Word/Excel/Text using the documents API.</p>
+        </header>
 
         {/* HEADER */}
         <Card>
-          <CardHeader>
-            <CardTitle className="text-xl md:text-2xl">
-              OCR Document Converter
-            </CardTitle>
-          </CardHeader>
+            <CardHeader>
+              <CardTitle className="text-lg md:text-xl text-sky-700">Upload & Convert</CardTitle>
+            </CardHeader>
 
           <CardContent className="space-y-4">
             {/* FILE INPUT */}
@@ -109,7 +113,7 @@ export default function OcrDashboard() {
               {/* READ */}
               <TabsContent value="read" className="pt-4">
                 <Button
-                  className="w-full"
+                  className="w-full bg-sky-600 hover:bg-sky-700 text-white"
                   disabled={!file || loading}
                   onClick={() => uploadFile("read")}
                 >
@@ -121,7 +125,7 @@ export default function OcrDashboard() {
               {/* WORD */}
               <TabsContent value="word" className="pt-4">
                 <Button
-                  className="w-full"
+                  className="w-full bg-sky-600 hover:bg-sky-700 text-white"
                   disabled={!file || loading}
                   onClick={() => uploadFile("convert-word")}
                 >
@@ -133,7 +137,7 @@ export default function OcrDashboard() {
               {/* EXCEL */}
               <TabsContent value="excel" className="pt-4">
                 <Button
-                  className="w-full"
+                  className="w-full bg-sky-600 hover:bg-sky-700 text-white"
                   disabled={!file || loading}
                   onClick={() => uploadFile("convert-excel")}
                 >
@@ -145,7 +149,7 @@ export default function OcrDashboard() {
               {/* TXT */}
               <TabsContent value="txt" className="pt-4">
                 <Button
-                  className="w-full"
+                  className="w-full bg-sky-600 hover:bg-sky-700 text-white"
                   disabled={!file || loading}
                   onClick={() => uploadFile("convert-txt")}
                 >
@@ -164,7 +168,7 @@ export default function OcrDashboard() {
               <CardTitle>Result</CardTitle>
             </CardHeader>
             <CardContent>
-              <pre className="whitespace-pre-wrap text-sm bg-gray-100 p-4 rounded">
+              <pre className="whitespace-pre-wrap text-sm bg-sky-50 p-4 rounded">
                 {text}
               </pre>
             </CardContent>
@@ -179,10 +183,7 @@ export default function OcrDashboard() {
                 File ready for download 🎉
               </p>
 
-              <a
-                href={`http://localhost:4000/uploads/${downloadUrl}`}
-                target="_blank"
-              >
+              <a href={`${API_BASE}/uploads/${downloadUrl}`} target="_blank" rel="noreferrer">
                 <Button>Download File</Button>
               </a>
             </CardContent>
